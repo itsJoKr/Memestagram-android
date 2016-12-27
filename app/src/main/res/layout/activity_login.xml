@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="dev.jokr.memestagram.screens.login.LoginActivity">
+    tools:context="dev.jokr.memestagram.ui.login.LoginActivity">
 
     <EditText
         android:layout_width="match_parent"

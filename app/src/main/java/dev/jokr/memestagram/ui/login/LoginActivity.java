@@ -1,4 +1,4 @@
-package dev.jokr.memestagram.screens.login;
+package dev.jokr.memestagram.ui.login;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.models.User;
-import dev.jokr.memestagram.screens.main.MainActivity;
+import dev.jokr.memestagram.ui.main.MainActivity;
 import dev.jokr.memestagram.util.ProjectConst;
 
 public class LoginActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {

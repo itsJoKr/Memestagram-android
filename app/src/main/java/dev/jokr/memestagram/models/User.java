@@ -12,9 +12,9 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class User {
-    private String $key;
-    private String username;
-    private int type;
+    public String $key;
+    public String username;
+    public int type;
 
     public User() {}
 
