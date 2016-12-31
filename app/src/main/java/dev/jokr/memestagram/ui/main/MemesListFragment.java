@@ -1,7 +1,10 @@
 package dev.jokr.memestagram.ui.main;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +24,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.events.ShowCreateNewMeme;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -32,6 +37,8 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
 
     @Bind(R.id.memes_recycler)
     RecyclerView recyclerView;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     private List<Meme> memes;
     private MemesAdapter adapter;
@@ -50,8 +57,17 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
         memesRef.addChildEventListener(this);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new ShowCreateNewMeme());
+            }
+        });
+
         return v;
     }
+
+
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
