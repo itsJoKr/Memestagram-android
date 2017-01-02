@@ -2,17 +2,14 @@ package dev.jokr.memestagram.ui.newmeme;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,9 +42,6 @@ public class MemeEditorFragment extends Fragment{
         ButterKnife.bind(this, v);
         memeScrollView.setScrollingEnabled(false);
 
-        InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-
         memeView.setFocusable(true);
         memeView.setFocusableInTouchMode(true);
 
@@ -73,7 +67,6 @@ public class MemeEditorFragment extends Fragment{
                 });
             }
         });
-
     }
 
     public void setFinishedEditListener(FinishedEditListener finishedEditListener) {
@@ -91,6 +84,7 @@ public class MemeEditorFragment extends Fragment{
 
     @OnClick(R.id.fab)
     public void finishEdit() {
+        memeView.hideSoftKeyboard();
         finishedEditListener.onFinishedEdit(memeView.getFinalBitmap(), memeView.getMetadata(), memeView.getScale());
     }
 

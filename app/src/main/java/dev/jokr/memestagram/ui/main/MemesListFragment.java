@@ -1,7 +1,5 @@
 package dev.jokr.memestagram.ui.main;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +33,7 @@ import dev.jokr.memestagram.models.Meme;
 
 public class MemesListFragment extends Fragment implements ChildEventListener {
 
-    @Bind(R.id.memes_recycler)
+    @Bind(R.id.list_memes)
     RecyclerView recyclerView;
     @Bind(R.id.fab)
     FloatingActionButton fab;

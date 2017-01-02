@@ -15,7 +15,10 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import dev.jokr.memestagram.util.CaretToggleTask;
@@ -54,14 +57,17 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
     private CaretToggleTask caretTask;
     private boolean underscoreShown = false;
     private float scale;
+    private InputMethodManager imm;
 
     public MemeView(Context context) {
         super(context);
+        setFocusableInTouchMode(true);
         this.setDrawingCacheEnabled(true);
     }
 
     public MemeView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setFocusableInTouchMode(true);
         this.setDrawingCacheEnabled(true);
     }
 
@@ -81,6 +87,10 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
             maxHeight = height;
             offset = maxHeight - (textSize+1);
         }
+
+        imm = (InputMethodManager) getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
     }
 
     public void setBitmapAndInitialize(Bitmap bmp, boolean upperHalf) {
@@ -127,6 +137,8 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             setOffset(-(startY-event.getY()));
             setCaptionSizeFromSwipe(startX, event.getX());
+
+            imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
         } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
             offset = 0;
             startX = 0;
@@ -166,6 +178,15 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
 
 
     @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        BaseInputConnection fic = new BaseInputConnection(this, false);
+        outAttrs.inputType = InputType.TYPE_NULL;
+        outAttrs.imeOptions = EditorInfo.IME_NULL;
+        return fic;
+    }
+
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int textRectWidth = 0;
@@ -197,6 +218,11 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
             canvas.drawRect(0, height/2, width, height, shadowPaint);
         else
             canvas.drawRect(0, 0, width, height/2, shadowPaint);
+    }
+
+
+    public void hideSoftKeyboard() {
+        imm.hideSoftInputFromWindow(this.getWindowToken(), 0);
     }
 
     private void setCaptionSizeFromSwipe(float fromX, float toX) {
@@ -258,8 +284,10 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
 
 
     private void scaleToOriginalValues() {
-        textSize = (int)(textSize/scale);
-        offset = offset/scale;
+        if (scale > 0.01) {
+            textSize = (int) (textSize / scale);
+            offset = offset / scale;
+        }
     }
 
     public class Metadata {

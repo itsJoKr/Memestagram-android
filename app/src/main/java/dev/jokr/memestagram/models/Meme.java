@@ -2,6 +2,7 @@ package dev.jokr.memestagram.models;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,17 +14,20 @@ public class Meme {
     @Exclude
     public String $key;
     public String title;
+    public long timestamp;
 
     public Meme() { }
 
     public Meme(String title) {
         this.title = title;
+        this.timestamp = new Date().getTime();
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("title", title);
+        result.put("timestamp", timestamp);
 
         return result;
     }

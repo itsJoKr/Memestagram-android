@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import dev.jokr.memestagram.util.PaintUtil;
@@ -45,13 +46,11 @@ public class MemeDrawable extends Drawable {
     }
 
 
-
     private void init() {
         width = bmp.getWidth();
         height = bmp.getHeight();
-        this.setBounds(new Rect(0, 0, width, height));
+//        this.setBounds(new Rect(0, 0, width, height));
     }
-
 
 
     @Override
@@ -75,16 +74,21 @@ public class MemeDrawable extends Drawable {
         }
     }
 
+
     @Override
     protected void onBoundsChange(Rect bounds) {
-        Log.d("USER", "onBoundsChange: currW " + width + " boundW " + bounds.width());
+        Log.d("USER", "onBoundsChange: W " + width + " boundW " + bounds.width()
+                + "H " + height + " boundH " + bounds.height());
 
-        if (bmp != null && width != bounds.width()) {
+        if (bmp != null) {
             scale = bounds.width()/(float)width;
-            int height = (int)(bmp.getHeight()* scale);
+            height = (int)(bmp.getHeight()* scale);
+            Log.d("USER", "onBounds scaled height: " + height);
+            this.setBounds(new Rect(0, 0, width, height));
             this.bmp = Bitmap.createScaledBitmap(bmp, width, height, false);
             scaleCaptionMetadata(scale, topMeta);
             scaleCaptionMetadata(scale, botMeta);
+            this.bmp = Bitmap.createScaledBitmap(bmp, width, height, false);
 
             init();
         }
