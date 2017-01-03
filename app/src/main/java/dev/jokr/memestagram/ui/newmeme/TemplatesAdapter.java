@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 
@@ -74,11 +74,11 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.Temp
 
     class TemplateItem extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.container_template)
+        @BindView(R.id.container_template)
         CardView container;
-        @Bind(R.id.img_template)
+        @BindView(R.id.img_template)
         ImageView img;
-        @Bind(R.id.txt_template_title)
+        @BindView(R.id.txt_template_title)
         TextView txtTitle;
 
         public TemplateItem(View itemView) {

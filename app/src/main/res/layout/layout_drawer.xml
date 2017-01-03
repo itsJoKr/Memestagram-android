@@ -46,7 +46,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="FRESH"
@@ -60,7 +60,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="SUBBED"
@@ -75,7 +75,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="RANDOM"
@@ -94,8 +94,9 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/drawer_item_profile"
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="PROFILE"
@@ -109,7 +110,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="MESSAGES"
@@ -123,7 +124,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="SEARCH"
@@ -144,7 +145,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="FEEDBACK"
@@ -158,7 +159,7 @@
 
         <TextView
             style="@style/drawer_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="ABOUT"

@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
@@ -26,7 +26,7 @@ public class MemeEditorActivity extends AppCompatActivity implements MemeEditorF
     private static final int BOTTOM_CAPTION = 2;
     private static final int PUBLISH = 3;
 
-    @Bind(R.id.fragment_container)
+    @BindView(R.id.fragment_container)
     FrameLayout fragmentContainer;
 
     private MemeEditorFragment memeCaptionFragment;

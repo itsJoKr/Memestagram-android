@@ -30,7 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.jokr.memestagram.R;
@@ -45,11 +45,11 @@ import dev.jokr.memestagram.views.MemeDrawable;
 
 public class PublishMemeFragment extends Fragment {
 
-    @Bind(R.id.img_meme)
+    @BindView(R.id.img_meme)
     ImageView imgMeme;
-    @Bind(R.id.btn_publish)
+    @BindView(R.id.btn_publish)
     Button btnPublish;
-    @Bind(R.id.etxt_meme_title)
+    @BindView(R.id.etxt_meme_title)
     EditText txtMemeTitle;
 
     private FragmentCreatedListener fragmentCreatedListener;
@@ -87,12 +87,9 @@ public class PublishMemeFragment extends Fragment {
         String key = memesRef.push().getKey();
         Map<String, Object> update = new HashMap<>();
         update.put("/" + key, m.toMap());
-        memesRef.updateChildren(update, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    Log.e("USER", "Publish meme: " + databaseError.getMessage());
-                }
+        memesRef.updateChildren(update, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                Log.e("USER", "Publish meme: " + databaseError.getMessage());
             }
         });
 

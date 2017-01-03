@@ -22,7 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
@@ -35,9 +35,9 @@ import dev.jokr.memestagram.models.Meme;
 
 public class MemesListFragment extends Fragment implements ChildEventListener {
 
-    @Bind(R.id.list_memes)
+    @BindView(R.id.list_memes)
     RecyclerView recyclerView;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
 
     private List<Meme> memes;
@@ -58,12 +58,7 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
         memesRef.addChildEventListener(this);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new ShowCreateNewMeme());
-            }
-        });
+        fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMeme()));
 
         return v;
     }

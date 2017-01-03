@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.jokr.memestagram.R;
@@ -25,11 +25,11 @@ import dev.jokr.memestagram.views.MemeView;
 
 public class MemeEditorFragment extends Fragment{
 
-    @Bind(R.id.meme_view)
+    @BindView(R.id.meme_view)
     MemeView memeView;
-    @Bind(R.id.scroll_view_editor)
+    @BindView(R.id.scroll_view_editor)
     MemeScrollView memeScrollView;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton btnNext;
 
     private FinishedEditListener finishedEditListener;

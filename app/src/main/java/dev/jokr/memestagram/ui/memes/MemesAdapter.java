@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.models.Meme;
@@ -91,9 +91,9 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
 
     class MemeHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.txt_meme_title)
+        @BindView(R.id.txt_meme_title)
         TextView memeTitle;
-        @Bind(R.id.img_meme)
+        @BindView(R.id.img_meme)
         ImageView imgMeme;
 
         public MemeHolder(View itemView) {

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 
@@ -23,7 +23,7 @@ import dev.jokr.memestagram.R;
 
 public class TemplatePickFragment extends Fragment implements TemplatesAdapter.OnTemplateClickListener {
 
-    @Bind(R.id.list_templates)
+    @BindView(R.id.list_templates)
     RecyclerView listTemplates;
 
     OnPickedTemplateListener pickedTemplateListener;
