@@ -44,46 +44,22 @@ public class MemeEditorActivity extends AppCompatActivity implements MemeEditorF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meme_editor);
         ButterKnife.bind(this);
-
-        final TemplatePickFragment templatePickFragment = new TemplatePickFragment();
-        templatePickFragment.setPickedTemplateListener(new TemplatePickFragment.OnPickedTemplateListener() {
-            @Override
-            public void onPickedTemplate(int drawableId) {
-                MemeEditorActivity.this.drawableId = drawableId;
-
-                step = TOP_CAPTION;
-                memeCaptionFragment = new MemeEditorFragment();
-                memeCaptionFragment.setFinishedEditListener(MemeEditorActivity.this);
-                getSupportFragmentManager().beginTransaction()
-                        .remove(templatePickFragment).commitNow();
-
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, memeCaptionFragment)
-                        .commit();
-            }
-        });
+        this.drawableId = getIntent().getIntExtra("drawable_id", 0);
 
         step = TOP_CAPTION;
         memeCaptionFragment = new MemeEditorFragment();
         memeCaptionFragment.setFinishedEditListener(MemeEditorActivity.this);
-        getSupportFragmentManager().beginTransaction()
-                .remove(templatePickFragment).commitNow();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, memeCaptionFragment)
                 .commit();
 
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, templatePickFragment)
-//                .commit();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, PickerActivity.class);
         startActivity(i);
     }
 
@@ -122,25 +98,9 @@ public class MemeEditorActivity extends AppCompatActivity implements MemeEditorF
 
     private Bitmap getBaseBitmap() {
         Log.d("USER", "getBitmap id: " + this.drawableId);
-//        Drawable d = ContextCompat.getDrawable(this, this.drawableId);
-        Drawable d = ContextCompat.getDrawable(this, R.drawable.temp_brace_yourselves);
+        Drawable d = ContextCompat.getDrawable(this, this.drawableId);
+//        Drawable d = ContextCompat.getDrawable(this, R.drawable.temp_brace_yourselves);
         return ((BitmapDrawable) d).getBitmap();
-    }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
-
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     @Override

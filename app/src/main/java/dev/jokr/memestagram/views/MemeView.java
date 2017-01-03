@@ -39,6 +39,7 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
     private Paint dashedPaint;
 
     private boolean initialized = false;
+
     private int width;
     private int height;
     private int textSize;
@@ -52,11 +53,12 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
 
     private int minCapSize = 20;
     private int maxCapSize = 90;
-
+    private float scale;
     private boolean finalBitmapRequest = false;
+
     private CaretToggleTask caretTask;
     private boolean underscoreShown = false;
-    private float scale;
+
     private InputMethodManager imm;
 
     public MemeView(Context context) {
@@ -168,12 +170,14 @@ public class MemeView extends View implements CaretToggleTask.CaretToggleCallbac
 
         if (bmp != null && givenWidth != width) {
             scale = givenWidth/(float)bmp.getWidth();
-            int height = (int)(bmp.getHeight()* scale);
+            width = givenWidth;
+            height = (int)(bmp.getHeight()* scale);
             this.bmp = Bitmap.createScaledBitmap(bmp, givenWidth, height, false);
             init();
+            measure(0,0);
         }
 
-        super.onLayout(changed, left, top, right, bottom);
+        super.onLayout(changed, 0, top, givenWidth, height);
     }
 
 

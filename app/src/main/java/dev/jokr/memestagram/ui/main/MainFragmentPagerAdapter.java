@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import dev.jokr.memestagram.ui.memes.MemesListFragment;
+
 /**
  * Created by jokr on 27.12.16..
  */

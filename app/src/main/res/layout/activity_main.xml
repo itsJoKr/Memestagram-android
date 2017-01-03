@@ -21,8 +21,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
-                    app:title="MEMESTRAGRAM"
-                    app:titleTextColor="@color/cardview_light_background"/>
+                    app:title="MEMESTRAGRAM"/>
 
             </android.support.design.widget.AppBarLayout>
 
@@ -38,20 +37,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@android:color/white" />
+                android:background="#e5e5e5" />
         </LinearLayout>
 
 
 
 
     <!-- The navigation drawer -->
-    <ListView
-        android:id="@+id/left_drawer"
+    <include layout="@layout/layout_drawer"
         android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        />
 </android.support.v4.widget.DrawerLayout>

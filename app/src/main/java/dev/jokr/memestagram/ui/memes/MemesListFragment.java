@@ -1,4 +1,4 @@
-package dev.jokr.memestagram.ui.main;
+package dev.jokr.memestagram.ui.memes;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +16,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,8 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
 
         memes = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MemesAdapter(getActivity());
+        StorageReference sRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://memestagram-1767b.appspot.com/memes");
+        adapter = new MemesAdapter(getActivity(), sRef);
         recyclerView.setAdapter(adapter);
 
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");

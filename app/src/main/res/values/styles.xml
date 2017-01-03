@@ -7,5 +7,22 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    
+    <style name="drawer_text">
+        <item name="android:textColor">@color/yellowLabels</item>
+        <item name="android:textSize">@dimen/drawer_items_size</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_marginTop">@dimen/drawer_items_margin</item>
+        <item name="android:padding">@dimen/drawer_items_padding</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="drawer_ripple" xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item name="rb_color">@color/yellowLabels</item>
+        <item name="rb_radius">20dp</item>
+        <item name="rb_rippleAmount">1</item>
+        <item name="rb_duration">310</item>
+        <item name="rb_scale">6</item>
+    </style>
 
 </resources>

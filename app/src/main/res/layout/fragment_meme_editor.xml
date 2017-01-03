@@ -16,7 +16,7 @@
 
             <dev.jokr.memestagram.views.MemeView
                 android:id="@+id/meme_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" />
 

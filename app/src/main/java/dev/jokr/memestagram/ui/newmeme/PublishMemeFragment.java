@@ -1,6 +1,7 @@
 package dev.jokr.memestagram.ui.newmeme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +36,7 @@ import butterknife.OnClick;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.models.Meme;
+import dev.jokr.memestagram.ui.main.MainActivity;
 import dev.jokr.memestagram.views.MemeDrawable;
 
 /**
@@ -122,6 +125,9 @@ public class PublishMemeFragment extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Toast.makeText(getContext(), "Published successfully", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), MainActivity.class);
+                getActivity().startActivity(i);
             }
         });
     }

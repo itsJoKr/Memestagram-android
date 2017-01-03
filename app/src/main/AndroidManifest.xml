@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.newmeme.MemeEditorActivity"></activity>
+        <activity android:name=".ui.newmeme.MemeEditorActivity" />
+        <activity android:name=".ui.newmeme.PickerActivity"></activity>
     </application>
 
 </manifest>
