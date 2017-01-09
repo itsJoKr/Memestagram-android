@@ -47,6 +47,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'de.greenrobot:eventbus:3.0.0-beta1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
 }
 

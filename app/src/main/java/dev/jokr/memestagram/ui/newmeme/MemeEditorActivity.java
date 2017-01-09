@@ -97,7 +97,7 @@ public class MemeEditorActivity extends AppCompatActivity implements MemeEditorF
     }
 
     private Bitmap getBaseBitmap() {
-        Log.d("USER", "getBitmap id: " + this.drawableId);
+        Log.d("USER", "getDrawable id: " + this.drawableId);
         Drawable d = ContextCompat.getDrawable(this, this.drawableId);
 //        Drawable d = ContextCompat.getDrawable(this, R.drawable.temp_brace_yourselves);
         return ((BitmapDrawable) d).getBitmap();

@@ -1,5 +1,8 @@
 package dev.jokr.memestagram.ui.meme;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -26,7 +30,9 @@ public class MemeFragment extends Fragment {
     TextView txtUsername;
     @BindView(R.id.txt_meme_title)
     TextView txtMemeTitle;
+
     private Meme meme;
+    private FragmentCreatedListener fragmentCreatedListener;
 
     public static MemeFragment newInstance(Meme m) {
 
@@ -44,7 +50,20 @@ public class MemeFragment extends Fragment {
         ButterKnife.bind(this, v);
         this.meme = (Meme) getArguments().getSerializable("meme");
 
+        txtUsername.setText(meme.user.username);
+        txtMemeTitle.setText(meme.title);
 
+        fragmentCreatedListener.onFragmentCreated();
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCreatedListener = (FragmentCreatedListener) context;
+    }
+
+    public void setMemeImage(Drawable d) {
+        imgMeme.setImageDrawable(d);
     }
 }

@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -58,7 +60,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
         Meme meme = memes.get(position);
         holder.memeTitle.setText(meme.title);
         holder.byUser.setText("By " + meme.user.username);
-        holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMeme(meme)));
+        holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMeme(meme, holder.imgMeme.getDrawable())));
         loadImage(meme.$key, holder.imgMeme);
     }
 
@@ -73,24 +75,40 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
     }
 
     private void loadImage(String key, final ImageView imageView) {
+        String temporaryDir = System.getProperty("java.io.tmpdir");
+        File tempFile = new File(temporaryDir, key + ".jpg");
+
+        Picasso.with(ctx)
+                .load(tempFile)
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() { }
+                    @Override
+                    public void onError() {
+                        //No disk cache, proceed to firebase
+                        MemesAdapter.this.loadFromFirebase(key, imageView);
+                    }
+                });
+    }
+
+    private void loadFromFirebase(String key, final ImageView imageView) {
         StorageReference imageRef = memesRef.child(key);
-        try {
-            final File localFile = File.createTempFile(key, "jpg");
-            imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    // Local temp file has been created
-                    Picasso.with(ctx).load(localFile).into(imageView);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.e("USER", "image Failure", exception.fillInStackTrace());
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String temporaryDir = System.getProperty("java.io.tmpdir");
+        File tempFile = new File(temporaryDir, key + ".jpg");
+
+        imageRef.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Picasso.with(ctx).load(tempFile).into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("USER", "image Failure", exception.fillInStackTrace());
+            }
+        });
     }
 
     class MemeHolder extends RecyclerView.ViewHolder {
