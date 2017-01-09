@@ -23,7 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.events.ShowMeme;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -54,7 +56,9 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
     @Override
     public void onBindViewHolder(MemeHolder holder, int position) {
         Meme meme = memes.get(position);
-        holder.memeTitle.setText(meme.title + meme.$key);
+        holder.memeTitle.setText(meme.title);
+        holder.byUser.setText("By " + meme.user.username);
+        holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMeme(meme)));
         loadImage(meme.$key, holder.imgMeme);
     }
 
@@ -95,6 +99,8 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
         TextView memeTitle;
         @BindView(R.id.img_meme)
         ImageView imgMeme;
+        @BindView(R.id.txt_by_username)
+        TextView byUser;
 
         public MemeHolder(View itemView) {
             super(itemView);

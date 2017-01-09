@@ -27,10 +27,20 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="meme"
+            android:maxLines="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="3dp"
+            android:textColor="@color/colorPrimaryDark"
             android:id="@+id/txt_meme_title"/>
+
+        <TextView
+            android:id="@+id/txt_by_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="sans-serif-light"/>
+
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -3,6 +3,7 @@ package dev.jokr.memestagram.models;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +12,9 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class User {
+public class User implements Serializable {
     public String $key;
+    public String key;
     public String username;
     public int type;
 
@@ -24,6 +26,12 @@ public class User {
         this.type = type;
     }
 
+
+    public String getKey() {
+        if ($key != null) return $key;
+        else return key;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -31,6 +39,17 @@ public class User {
         result.put("type", type);
 
         return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toSmallMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("username", username);
+        result.put("type", type);
+        result.put("key", getKey());
+
+        return result;
+
     }
 
 }

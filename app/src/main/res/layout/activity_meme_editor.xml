@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="MEMESTRAGRAM"
-            app:titleTextColor="@color/cardview_light_background"/>
+            app:title="Računalna Grafika Sample"/>
 
     </android.support.design.widget.AppBarLayout>
 

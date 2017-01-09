@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
+import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Meme;
 import dev.jokr.memestagram.ui.main.MainActivity;
 import dev.jokr.memestagram.views.MemeDrawable;
@@ -83,17 +84,20 @@ public class PublishMemeFragment extends Fragment {
     public void publishMeme() {
         String title = txtMemeTitle.getText().toString();
         Meme m = new Meme(title);
+        LoggedUserManager.getInstance().getLoggedUser(user -> {
+            m.user = user;
 
-        String key = memesRef.push().getKey();
-        Map<String, Object> update = new HashMap<>();
-        update.put("/" + key, m.toMap());
-        memesRef.updateChildren(update, (databaseError, databaseReference) -> {
-            if (databaseError != null) {
-                Log.e("USER", "Publish meme: " + databaseError.getMessage());
-            }
+            String key = memesRef.push().getKey();
+            Map<String, Object> update = new HashMap<>();
+            update.put("/" + key, m.toMap());
+            memesRef.updateChildren(update, (databaseError, databaseReference) -> {
+                if (databaseError != null) {
+                    Log.e("USER", "Publish meme: " + databaseError.getMessage());
+                }
+            });
+
+            buildImageAndUpload(key);
         });
-
-        buildImageAndUpload(key);
     }
 
     private void buildImageAndUpload(String key) {
