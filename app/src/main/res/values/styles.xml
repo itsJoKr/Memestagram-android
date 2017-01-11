@@ -18,10 +18,10 @@
     </style>
 
     <style name="drawer_ripple" xmlns:app="http://schemas.android.com/apk/res-auto">
-        <item name="rb_color">@color/yellowLabels</item>
+        <item name="rb_color">#77ffff00</item>
         <item name="rb_radius">20dp</item>
         <item name="rb_rippleAmount">1</item>
-        <item name="rb_duration">310</item>
+        <item name="rb_duration">130</item>
         <item name="rb_scale">6</item>
     </style>
 
