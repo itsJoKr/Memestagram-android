@@ -2,6 +2,7 @@ package dev.jokr.memestagram.models;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +19,9 @@ public class Message {
     public Message() {
     }
 
-    public Message(String content, long timestamp, String senderKey) {
+    public Message(String content, String senderKey) {
         this.content = content;
-        this.timestamp = timestamp;
+        this.timestamp = new Date().getTime();
         this.sender = senderKey;
     }
 

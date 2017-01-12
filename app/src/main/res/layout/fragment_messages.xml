@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:id="@+id/container_send"
+        android:layout_alignParentBottom="true"
+        android:background="#fff">
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/icon_send_it"
+            app:srcCompat="@drawable/ic_send_black_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?android:selectableItemBackground"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comment here"
+            android:id="@+id/etxt_message"
+            android:layout_toLeftOf="@id/icon_send_it"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey700"
+        android:id="@+id/divider_line"
+        android:layout_above="@id/container_send"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/list_messages"/>
+        android:layout_height="fill_parent"
+        android:id="@+id/list_messages"
+        android:layout_above="@id/divider_line"/>
 
-</LinearLayout>
+
+</RelativeLayout>
