@@ -24,6 +24,7 @@ import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.events.ShowConversation;
 import dev.jokr.memestagram.events.ShowCreateNewMeme;
 import dev.jokr.memestagram.events.ShowMeme;
+import dev.jokr.memestagram.events.ShowUser;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.ui.login.LoginActivity;
@@ -33,6 +34,7 @@ import dev.jokr.memestagram.ui.messages.ConvosFragment;
 import dev.jokr.memestagram.ui.messages.MessagesFragment;
 import dev.jokr.memestagram.ui.newmeme.PickerActivity;
 import dev.jokr.memestagram.ui.profile.ProfileFragment;
+import dev.jokr.memestagram.ui.user.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements FragmentCreatedListener {
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
 
     private final static int FRAG_MEME_DETAIL = 5;
     private final static int FRAG_MESSAGES_DETAIL = 6;
+    private final static int FRAG_USER_DETAIL = 7;
 
     @BindView(R.id.content_frame) LinearLayout contentFrame;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -115,23 +118,29 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
         currentFragmentState = FRAG_MEME_DETAIL;
         currentFragment = MemeFragment.newInstance(event.getMeme());
         this.tempDrawable = event.getDrawable();
-        setFragmentWithBackstack(currentFragment);
+        setFragmentWithBackstack(currentFragment, "meme");
     }
 
     @Subscribe
     public void onMessageEvent(ShowConversation event) {
         currentFragmentState  = FRAG_MESSAGES_DETAIL;
-
         currentFragment = MessagesFragment.newInstance(event.getConversation());
         tempDrawable = null; // remove reference
         setFragmentWithBackstack(currentFragment);
     }
 
+    @Subscribe
+    public void onMessageEvent(ShowUser event) {
+        currentFragmentState = FRAG_USER_DETAIL;
+        currentFragment = UserFragment.newInstance(event.getUser());
+        setFragmentWithBackstack(currentFragment);
+    }
 
     @Override
     public void onFragmentCreated() {
-        if (currentFragmentState == FRAG_MEME_DETAIL) {
-           ((MemeFragment) currentFragment).setMemeImage(tempDrawable);
+        if (currentFragmentState == FRAG_MEME_DETAIL || currentFragmentState == FRAG_USER_DETAIL) {
+            MemeFragment f = (MemeFragment) getSupportFragmentManager().findFragmentByTag("meme");
+            f.setMemeImage(tempDrawable);
         }
     }
 
@@ -176,6 +185,15 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+
+    private void setFragmentWithBackstack(Fragment fragment, String tag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("wtf")
+                .replace(R.id.fragment_container, fragment, tag)
+                .commit();
+    }
+
 
     private void showRipple(View v) {
         RippleBackground rb = (RippleBackground) v.getParent();

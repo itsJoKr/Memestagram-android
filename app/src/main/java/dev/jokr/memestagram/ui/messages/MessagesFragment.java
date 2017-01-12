@@ -71,7 +71,6 @@ public class MessagesFragment extends Fragment implements ChildEventListener {
             msgRef.addChildEventListener(this);
         });
 
-
         return v;
     }
 

@@ -30,7 +30,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.events.ShowUser;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Comment;
@@ -97,6 +100,12 @@ public class MemeFragment extends Fragment implements ChildEventListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        fragmentCreatedListener.onFragmentCreated(); // trigger drawable send
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         fragmentCreatedListener = (FragmentCreatedListener) context;
@@ -121,6 +130,11 @@ public class MemeFragment extends Fragment implements ChildEventListener {
             });
         });
 
+    }
+
+    @OnClick(R.id.card_user)
+    public void onUserClicked() {
+        EventBus.getDefault().post(new ShowUser(meme.user));
     }
 
     @Override
