@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
-import dev.jokr.memestagram.events.ShowCreateNewMeme;
+import dev.jokr.memestagram.events.ShowCreateNewMemeEvent;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -58,7 +58,7 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
         memesRef.addChildEventListener(this);
 
-        fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMeme()));
+        fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMemeEvent()));
 
         return v;
     }

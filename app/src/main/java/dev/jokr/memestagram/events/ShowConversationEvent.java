@@ -6,11 +6,11 @@ import dev.jokr.memestagram.models.Conversation;
  * Created by jokr on 11.01.17..
  */
 
-public class ShowConversation {
+public class ShowConversationEvent {
 
     private Conversation conversation;
 
-    public ShowConversation(Conversation conversation) {
+    public ShowConversationEvent(Conversation conversation) {
         this.conversation = conversation;
     }
 

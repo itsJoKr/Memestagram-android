@@ -3,170 +3,144 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="260dp"
     android:layout_height="match_parent"
-    android:background="@color/opaque_grey"
+    android:background="@color/altPrimary"
     android:orientation="vertical">
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="#ff0"
-        android:padding="6dp">
+        android:background="#000"
+        android:padding="6dp"
+        android:layout_marginBottom="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
-            android:text="Profile" />
+            android:text="Profile"
+            android:textColor="@color/altPrimary"/>
 
         <TextView
+            android:id="@+id/txt_logged_as"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:id="@+id/txt_logged_as"
-            android:text="Logged as sample-user" />
+            android:text="Logged as sample-user"
+            android:textColor="@color/altPrimary"/>
 
     </FrameLayout>
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+
+    <TextView
+        android:id="@+id/drawer_item_dank"
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="DANK"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp"/>
 
-        <TextView
-            android:id="@+id/drawer_item_dank"
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DANK" />
-    </com.skyfishjy.library.RippleBackground>
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="FRESH"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="FRESH"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="SUBBED"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="SUBBED"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="RANDOM"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="RANDOM"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/drawer_items_margin"
-        android:background="#66ffff00"/>
+        android:background="#212121" />
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+
+    <TextView
+        android:id="@+id/drawer_item_profile"
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="PROFILE"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
-        <TextView
-            android:id="@+id/drawer_item_profile"
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="PROFILE"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        android:id="@+id/drawer_item_messages"
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="MESSAGES"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
-        <TextView
-            android:id="@+id/drawer_item_messages"
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="MESSAGES"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="SEARCH"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="SEARCH"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/drawer_items_margin"
-        android:background="#66ffff00"/>
+        android:background="#212121" />
 
 
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="FEEDBACK"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="FEEDBACK"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
-
-    <com.skyfishjy.library.RippleBackground
-        style="@style/drawer_ripple"
+    <TextView
+        style="@style/drawer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/drawer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:text="ABOUT"
-            android:textColor="@color/yellowLabels" />
-    </com.skyfishjy.library.RippleBackground>
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="ABOUT"
+        android:textColor="@color/yellowLabels"
+        android:background="@drawable/selector"
+        android:layout_marginLeft="12dp" />
 
 </LinearLayout>

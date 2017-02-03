@@ -3,6 +3,7 @@ package dev.jokr.memestagram.ui.main;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.skyfishjy.library.RippleBackground;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +21,11 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import dev.jokr.memestagram.R;
-import dev.jokr.memestagram.events.ShowConversation;
-import dev.jokr.memestagram.events.ShowCreateNewMeme;
-import dev.jokr.memestagram.events.ShowMeme;
-import dev.jokr.memestagram.events.ShowUser;
+import dev.jokr.memestagram.events.ShowConversationEvent;
+import dev.jokr.memestagram.events.ShowCreateNewMemeEvent;
+import dev.jokr.memestagram.events.ShowMemeEvent;
+import dev.jokr.memestagram.events.ShowProfileEvent;
+import dev.jokr.memestagram.events.ShowUserEvent;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.ui.login.LoginActivity;
@@ -91,30 +92,27 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
 
     @OnClick(R.id.drawer_item_dank)
     public void openItemDank(View v) {
-        showRipple(v);
         updateFragment(FRAG_MEMES);
     }
 
     @OnClick(R.id.drawer_item_profile)
     public void openItemProfile(View v) {
-        showRipple(v);
         updateFragment(FRAG_PROFILE);
     }
 
     @OnClick(R.id.drawer_item_messages)
     public void openItemMessages(View v) {
-        showRipple(v);
         updateFragment(FRAG_MESSAGES);
     }
 
     @Subscribe
-    public void onMessageEvent(ShowCreateNewMeme event) {
+    public void onMessageEvent(ShowCreateNewMemeEvent event) {
         Intent i = new Intent(this, PickerActivity.class);
         this.startActivity(i);
     }
 
     @Subscribe
-    public void onMessageEvent(ShowMeme event) {
+    public void onMessageEvent(ShowMemeEvent event) {
         currentFragmentState = FRAG_MEME_DETAIL;
         currentFragment = MemeFragment.newInstance(event.getMeme());
         this.tempDrawable = event.getDrawable();
@@ -122,17 +120,24 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
     }
 
     @Subscribe
-    public void onMessageEvent(ShowConversation event) {
+    public void onMessageEvent(ShowConversationEvent event) {
         currentFragmentState  = FRAG_MESSAGES_DETAIL;
         currentFragment = MessagesFragment.newInstance(event.getConversation());
-        tempDrawable = null; // remove reference
         setFragmentWithBackstack(currentFragment);
     }
 
     @Subscribe
-    public void onMessageEvent(ShowUser event) {
+    public void onMessageEvent(ShowUserEvent event) {
         currentFragmentState = FRAG_USER_DETAIL;
         currentFragment = UserFragment.newInstance(event.getUser());
+        setFragmentWithBackstack(currentFragment);
+    }
+
+    @Subscribe
+    public void onMessageEvent(ShowProfileEvent event) {
+        currentFragmentState = FRAG_PROFILE;
+        currentFragment = new ProfileFragment();
+        tempDrawable = null; // remove reference
         setFragmentWithBackstack(currentFragment);
     }
 
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
         if (frag == currentFragmentState) return;
 
         currentFragment = null;
-        tempDrawable = null; // remove references
+        tempDrawable = null; // remove reference
         currentFragmentState = frag;
         drawer.closeDrawers();
         switch (currentFragmentState) {
@@ -186,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
                 .commit();
     }
 
+    // Needed so I can reference fragment later by tag
     private void setFragmentWithBackstack(Fragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -195,34 +201,16 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
     }
 
 
-    private void showRipple(View v) {
-        RippleBackground rb = (RippleBackground) v.getParent();
-        rb.startRippleAnimation();
-        stopRipple(rb);
-    }
-
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            if (currentFragmentState == FRAG_MESSAGES_DETAIL) {
+                int id = getSupportFragmentManager().getBackStackEntryAt(0).getId();
+                getSupportFragmentManager().popBackStack(id, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
             getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
     }
-
-    private void stopRipple(final RippleBackground rb) {
-        new Thread(() -> {
-            try {
-                Thread.sleep(120);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            rb.post(new Runnable() {
-                public void run() {
-                    rb.stopRippleAnimation();
-                }
-            });
-        }).start();
-    }
-
 }

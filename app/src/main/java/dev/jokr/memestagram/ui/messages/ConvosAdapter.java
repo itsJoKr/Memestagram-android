@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
-import dev.jokr.memestagram.events.ShowConversation;
+import dev.jokr.memestagram.events.ShowConversationEvent;
 import dev.jokr.memestagram.models.Conversation;
 
 
@@ -46,7 +46,7 @@ public class ConvosAdapter extends RecyclerView.Adapter<ConvosAdapter.ConvoHolde
     public void onBindViewHolder(ConvoHolder holder, int position) {
         Conversation c = convos.get(position);
         holder.otherGuyUsername.setText(c.otherGuy);
-        holder.cardConvo.setOnClickListener(v -> EventBus.getDefault().post(new ShowConversation(c)));
+        holder.cardConvo.setOnClickListener(v -> EventBus.getDefault().post(new ShowConversationEvent(c)));
     }
 
     @Override

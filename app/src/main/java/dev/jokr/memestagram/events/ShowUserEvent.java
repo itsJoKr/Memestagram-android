@@ -6,11 +6,11 @@ import dev.jokr.memestagram.models.User;
  * Created by jokr on 12.01.17..
  */
 
-public class ShowUser {
+public class ShowUserEvent {
 
     private User user;
 
-    public ShowUser(User user) {
+    public ShowUserEvent(User user) {
         this.user = user;
     }
 

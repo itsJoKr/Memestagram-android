@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 @IgnoreExtraProperties
-public class Conversation  implements Serializable{
+public class Conversation implements Serializable {
 
     public String otherGuy;
     public String convoKey;

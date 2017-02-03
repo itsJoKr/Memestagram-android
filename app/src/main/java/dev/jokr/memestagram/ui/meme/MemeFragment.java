@@ -1,7 +1,6 @@
 package dev.jokr.memestagram.ui.meme;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
-import dev.jokr.memestagram.events.ShowUser;
+import dev.jokr.memestagram.events.ShowProfileEvent;
+import dev.jokr.memestagram.events.ShowUserEvent;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Comment;
@@ -134,13 +134,17 @@ public class MemeFragment extends Fragment implements ChildEventListener {
 
     @OnClick(R.id.card_user)
     public void onUserClicked() {
-        EventBus.getDefault().post(new ShowUser(meme.user));
+        LoggedUserManager.getInstance().getLoggedUser(user -> {
+            if (meme.user.getKey().equals(user.getKey()))
+                Toast.makeText(getContext(), "That's you. Nice meme.", Toast.LENGTH_SHORT).show();
+            else
+                EventBus.getDefault().post(new ShowUserEvent(meme.user));
+        });
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Comment c = dataSnapshot.getValue(Comment.class);
-        // set adapter
         comments.add(c);
         adapter.notifyDataSetChanged();
     }

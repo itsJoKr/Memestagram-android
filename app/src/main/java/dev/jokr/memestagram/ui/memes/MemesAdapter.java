@@ -20,14 +20,14 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
-import dev.jokr.memestagram.events.ShowMeme;
+import dev.jokr.memestagram.events.ShowMemeEvent;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -60,7 +60,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
         Meme meme = memes.get(position);
         holder.memeTitle.setText(meme.title);
         holder.byUser.setText("By " + meme.user.username);
-        holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMeme(meme, holder.imgMeme.getDrawable())));
+        holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMemeEvent(meme, holder.imgMeme.getDrawable())));
         loadImage(meme.$key, holder.imgMeme);
     }
 
@@ -72,6 +72,14 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
     public void setMemes(List<Meme> memes) {
         this.memes = memes;
         notifyDataSetChanged();
+    }
+
+    public void addMeme(Meme meme) {
+        if (memes == null)
+            memes = new ArrayList<>();
+
+        memes.add(meme);
+        notifyItemInserted(memes.size()-1);
     }
 
     private void loadImage(String key, final ImageView imageView) {

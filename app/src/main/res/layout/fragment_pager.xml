@@ -9,7 +9,8 @@
         android:id="@+id/tab_layout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="fixed" />
+        app:tabMode="fixed"
+        app:tabBackground="@color/palePrimary"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_main"
