@@ -22,6 +22,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,7 +92,6 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
                             .getReference("users/" + u.getKey() + "/convos")
                     .orderByKey()
                     .equalTo(user.getKey());
-            // fixme: order By Key -- otherGuyKey!!
 
             convoQuery.addListenerForSingleValueEvent(this);
         });
@@ -121,12 +121,33 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        if (dataSnapshot.getValue() == null) return;
+        if (dataSnapshot.getValue() == null) {
+            openConversation();
+        } else {
+            HashMap<String, String> m = (HashMap<String, String>)
+                    ((HashMap) (dataSnapshot.getValue())).get(user.getKey());
+            Conversation c = new Conversation(m.get("otherGuy"), m.get("convoKey"));
+            EventBus.getDefault().post(new ShowConversationEvent(c));
+        }
+    }
 
-        HashMap<String, String> m = (HashMap<String, String>)
-                ((HashMap)(dataSnapshot.getValue())).get(user.getKey());
-        Conversation c = new Conversation(m.get("otherGuy"), m.get("convoKey"));
-        EventBus.getDefault().post(new ShowConversationEvent(c));
+    public void openConversation() {
+        LoggedUserManager.getInstance().getLoggedUser(u -> {
+            String path = "users/" + u.getKey() + "/convos/";
+            DatabaseReference userConvosRef = FirebaseDatabase.getInstance().getReference(path);
+            String key = u.getKey() + user.getKey();
+            Conversation c = new Conversation(user.username, key);
+
+            Map<String, Object> update = new HashMap<>();
+            update.put("/" + key, c.toMap());
+            userConvosRef.updateChildren(update, (databaseError, databaseReference) -> {
+                if (databaseError != null) {
+                    Log.e("USER", "Publish meme: " + databaseError.getMessage());
+                } else {
+                    EventBus.getDefault().post(new ShowConversationEvent(c));
+                }
+            });
+        });
     }
 
     @Override

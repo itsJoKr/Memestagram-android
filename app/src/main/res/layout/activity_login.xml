@@ -14,6 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/etxt_uname"
         android:hint="Username"/>
 
     <Button

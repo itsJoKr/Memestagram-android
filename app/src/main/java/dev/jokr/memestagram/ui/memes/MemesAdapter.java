@@ -2,7 +2,9 @@ package dev.jokr.memestagram.ui.memes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.events.ShowMemeEvent;
 import dev.jokr.memestagram.models.Meme;
+import dev.jokr.memestagram.util.PlebUsernameTag;
 
 /**
  * Created by jokr on 27.12.16..
@@ -59,9 +62,14 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder>{
     public void onBindViewHolder(MemeHolder holder, int position) {
         Meme meme = memes.get(position);
         holder.memeTitle.setText(meme.title);
-        holder.byUser.setText("By " + meme.user.username);
+        holder.byUser.setText(meme.user.username);
+        holder.byUser.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pleb_tag, 0, 0, 0);
         holder.imgMeme.setOnClickListener(v -> EventBus.getDefault().post(new ShowMemeEvent(meme, holder.imgMeme.getDrawable())));
-        loadImage(meme.$key, holder.imgMeme);
+
+
+        // TODO: temp load local images
+        holder.imgMeme.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.temp_leo_cheers));
+//        loadImage(meme.$key, holder.imgMeme);
     }
 
     @Override

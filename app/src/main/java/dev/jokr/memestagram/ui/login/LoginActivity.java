@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.models.User;
 import dev.jokr.memestagram.ui.main.MainActivity;
@@ -28,16 +31,26 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
 
     private FirebaseAuth firebaseAuth;
 
+    @BindView(R.id.etxt_uname)
+    EditText txtUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
     }
 
     public void loginAsAnon(View view) {
+        String uname = txtUsername.getText().toString();
+        if (uname.length() < 4) {
+            Toast.makeText(this, "At least 4 chars, please", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         firebaseAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -69,7 +82,9 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
     }
 
     private void saveNewUserToDatabase(FirebaseUser user) {
-        User thisUser = new User(user.getUid(), "Hardkoded", ProjectConst.ANON);
+        String uname = txtUsername.getText().toString();
+
+        User thisUser = new User(user.getUid(), uname, ProjectConst.ANON);
 
         FirebaseDatabase fireDb = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = fireDb.getReference("users");
@@ -77,7 +92,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
         Map<String, Object> update = new HashMap<>();
         update.put("/" + user.getUid(), thisUser.toMap());
         usersRef.updateChildren(update);
-//        usersRef.
     }
 
 
