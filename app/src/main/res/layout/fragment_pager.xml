@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="fixed"
-        app:tabBackground="@color/palePrimary"/>
+        app:tabBackground="@color/darkOne"
+        app:tabTextColor="#fff"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabIndicatorColor="@color/colorAccent"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_main"

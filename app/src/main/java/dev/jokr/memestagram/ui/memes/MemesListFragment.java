@@ -21,12 +21,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.events.ShowCreateNewMemeEvent;
+import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Meme;
 
 /**
@@ -42,6 +44,7 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
 
     private List<Meme> memes;
     private MemesAdapter adapter;
+    private List<String> likes;
 
     @Nullable
     @Override
@@ -56,14 +59,28 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         recyclerView.setAdapter(adapter);
 
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
-        memesRef.addChildEventListener(this);
+
+        LoggedUserManager.getInstance().getLoggedUser(user -> {
+            if (user.likes != null) this.likes = new ArrayList<>(user.likes.values());
+            memesRef.addChildEventListener(this);
+        });
+
+
 
         fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMemeEvent()));
 
         return v;
     }
 
+    private boolean isElementOf(String el, List<String> list) {
+        if (list==null) return false;
 
+        for (int i=0; i<list.size(); i++) {
+            if (el.equals(list.get(i)))
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -71,13 +88,16 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
 
         Meme meme = dataSnapshot.getValue(Meme.class);
         meme.$key = dataSnapshot.getKey();
+
+        meme.liked = isElementOf(meme.$key, likes);
+
         memes.add(meme);
         adapter.setMemes(memes);
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+        // TODO: 11.02.17. meme like is not updated to other screens
     }
 
     @Override

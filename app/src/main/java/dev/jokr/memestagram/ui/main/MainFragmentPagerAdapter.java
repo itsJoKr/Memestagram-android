@@ -26,11 +26,13 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         if (position == 0) return "DANK";
         if (position == 1) return "FRESH";
+        if (position == 2) return "SUBBED";
+        if (position == 3) return "RANDOM";
         return super.getPageTitle(position);
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 4;
     }
 }

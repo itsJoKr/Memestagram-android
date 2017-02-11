@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:text="Pleb's username"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/darkOne"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed"
                     android:text="DESCRIPTION"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/darkOne"
                     android:textSize="18sp" />
 
                 <TextView
@@ -83,7 +83,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginLeft="4dp"
             android:layout_marginBottom="4dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/darkOne"
             android:textSize="18sp" />
 
 

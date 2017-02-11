@@ -1,8 +1,15 @@
 package dev.jokr.memestagram.ui.meme;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,12 +45,16 @@ import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Comment;
 import dev.jokr.memestagram.models.Meme;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by jokr on 03.01.17..
  */
 
 public class MemeFragment extends Fragment implements ChildEventListener {
+
+    public static final int RC_STORAGE = 33;
 
     @BindView(R.id.img_meme)
     ImageView imgMeme;
@@ -57,6 +68,8 @@ public class MemeFragment extends Fragment implements ChildEventListener {
     EditText txtComment;
     @BindView(R.id.list_comments)
     RecyclerView listComments;
+    @BindView(R.id.txt_nof_likes)
+    TextView txtNofLikes;
 
     private Meme meme;
     private FragmentCreatedListener fragmentCreatedListener;
@@ -84,11 +97,16 @@ public class MemeFragment extends Fragment implements ChildEventListener {
 
         txtUsername.setText(meme.user.username);
         txtMemeTitle.setText(meme.title);
+        txtNofLikes.setText("" + meme.likes);
 
         btnSend.setOnClickListener(v1 -> sendComment());
 
+        String perms = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        if (!EasyPermissions.hasPermissions(getContext(), perms)){
+            EasyPermissions.requestPermissions(this, "Rationale??", RC_STORAGE, perms);
+        }
+
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
-//        lm.setReverseLayout(true);
         listComments.setLayoutManager(lm);
         adapter = new CommentsAdapter(getContext());
         adapter.setComments(comments);
@@ -103,6 +121,21 @@ public class MemeFragment extends Fragment implements ChildEventListener {
     public void onResume() {
         super.onResume();
         fragmentCreatedListener.onFragmentCreated(); // trigger drawable send
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(RC_STORAGE)
+    private void checkStoragePermission() {
+        String perms = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        if (EasyPermissions.hasPermissions(getContext(), perms)) {
+        } else {
+            Toast.makeText(getContext(), "Need storage permission!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -132,7 +165,22 @@ public class MemeFragment extends Fragment implements ChildEventListener {
 
     }
 
-    @OnClick(R.id.card_user)
+    @OnClick(R.id.img_share)
+    public void shareMeme() {
+        Drawable mDrawable = imgMeme.getDrawable();
+        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+
+        String path = MediaStore.Images.Media
+                .insertImage(getContext().getContentResolver(), mBitmap, "Image Description", null);
+        Uri uri = Uri.parse(path);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Share Image"));
+    }
+
+    @OnClick(R.id.btn_to_profile)
     public void onUserClicked() {
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             if (meme.user.getKey().equals(user.getKey()))

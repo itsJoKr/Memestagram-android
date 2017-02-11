@@ -14,8 +14,12 @@ import java.util.Map;
 public class Meme implements Serializable {
     @Exclude
     public String $key;
+    @Exclude
+    public boolean liked;
+
     public String title;
     public long timestamp;
+    public long likes;
     public User user;
 
     public Meme() { }
@@ -31,6 +35,7 @@ public class Meme implements Serializable {
         result.put("title", title);
         result.put("timestamp", timestamp);
         result.put("user", user.toSmallMap());
+        result.put("likes", 0);
 
         return result;
     }

@@ -1,8 +1,7 @@
-package dev.jokr.memestagram.ui.newmeme;
+package dev.jokr.memestagram.ui.editor;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
-import dev.jokr.memestagram.ui.main.MainActivity;
 import dev.jokr.memestagram.views.MemeDrawable;
 import dev.jokr.memestagram.views.MemeView;
 

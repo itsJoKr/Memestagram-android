@@ -20,11 +20,20 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:title="MEMESTRAGRAM"/>
+                    android:background="@color/colorAccent">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Memestagram "
+                        android:textColor="@color/darkOne"
+                        android:layout_gravity="center"
+                        android:textSize="40dp"
+                        android:id="@+id/toolbar_title"
+                        android:layout_marginTop="3dp"/>
+
+                </android.support.v7.widget.Toolbar>
             </android.support.design.widget.AppBarLayout>
-
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -32,8 +41,6 @@
                 android:id="@+id/fragment_container"/>
 
         </LinearLayout>
-
-
 
 
     <!-- The navigation drawer -->

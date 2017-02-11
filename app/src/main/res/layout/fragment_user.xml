@@ -1,63 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
+            android:layout_margin="8dp"
             app:cardCornerRadius="3dp"
-            android:layout_margin="8dp">
+            app:cardElevation="4dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp">
 
-                <TextView
-                    android:id="@+id/txt_username"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="18sp"
-                    android:layout_gravity="left|center"/>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_gravity="center|left">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_person_black_pleb_24px" />
+
+                    <TextView
+                        android:id="@+id/txt_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pleb's username"
+                        android:textColor="@color/darkOne"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
 
                 <ImageButton
+                    android:id="@+id/btn_convo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
-                    android:id="@+id/btn_convo"
-                    app:srcCompat="@drawable/ic_chat_bubble_black_24dp"
                     android:background="?android:selectableItemBackground"
-                    android:tint="@color/colorAccent"
-                    android:padding="2dp"/>
+                    android:padding="2dp"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@drawable/ic_chat_bubble_black_24dp" />
 
             </FrameLayout>
-
-
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="3dp">
+            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="4dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/list_memes" />
+                android:orientation="vertical"
+                android:padding="12dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="DESCRIPTION"
+                    android:textColor="@color/darkOne"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="5"
+                    android:text="You are just a pleb."
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_memes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>

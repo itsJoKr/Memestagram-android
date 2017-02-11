@@ -3,31 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="260dp"
     android:layout_height="match_parent"
-    android:background="@color/altPrimary"
+    android:background="@color/darkOne"
     android:orientation="vertical">
 
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="#000"
-        android:padding="6dp"
-        android:layout_marginBottom="8dp">
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_marginBottom="8dp"
+        android:paddingRight="8dp">
+
+        <ImageView
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginLeft="8dp"
+            app:srcCompat="@drawable/ic_logo_memestagram"/>
 
         <TextView
+            android:fontFamily="sans-serif-condensed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|left"
-            android:text="Profile"
-            android:textColor="@color/altPrimary"/>
+            android:layout_gravity="top|right"
+            android:text="Memes Everywhere"
+            android:textSize="15sp"
+            android:textColor="#66000000"
+            android:layout_marginTop="2dp"/>
 
         <TextView
             android:id="@+id/txt_logged_as"
+            android:fontFamily="sans-serif-condensed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:text="Logged as sample-user"
-            android:textColor="@color/altPrimary"/>
+            android:textSize="18sp"
+            android:textColor="@color/darkOne"
+            android:layout_marginBottom="2dp"/>
 
     </FrameLayout>
 
@@ -37,10 +49,12 @@
         style="@style/drawer_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DANK"
-        android:textColor="@color/yellowLabels"
+        android:text="Dank"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp"/>
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_dank"
+        android:drawablePadding="10dp"/>
 
 
     <TextView
@@ -48,10 +62,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="FRESH"
-        android:textColor="@color/yellowLabels"
+        android:text="Fresh"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_fresh"
+        android:drawablePadding="10dp" />
 
 
     <TextView
@@ -59,10 +75,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="SUBBED"
-        android:textColor="@color/yellowLabels"
+        android:text="Subbed"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_subbed"
+        android:drawablePadding="10dp" />
 
 
     <TextView
@@ -70,16 +88,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="RANDOM"
-        android:textColor="@color/yellowLabels"
+        android:text="Random"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_random"
+        android:drawablePadding="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/drawer_items_margin"
-        android:background="#212121" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/grey700" />
 
 
     <TextView
@@ -88,10 +109,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="PROFILE"
-        android:textColor="@color/yellowLabels"
+        android:text="Profile"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_profile"
+        android:drawablePadding="10dp" />
 
 
     <TextView
@@ -100,10 +123,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="MESSAGES"
-        android:textColor="@color/yellowLabels"
+        android:text="Messages"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_messages"
+        android:drawablePadding="10dp" />
 
 
     <TextView
@@ -111,16 +136,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="SEARCH"
-        android:textColor="@color/yellowLabels"
+        android:text="Search"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_search"
+        android:drawablePadding="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/drawer_items_margin"
-        android:background="#212121" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/grey700" />
 
 
     <TextView
@@ -128,19 +156,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="FEEDBACK"
-        android:textColor="@color/yellowLabels"
+        android:text="Feedback"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_feedback"
+        android:drawablePadding="10dp" />
 
     <TextView
         style="@style/drawer_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="ABOUT"
-        android:textColor="@color/yellowLabels"
+        android:text="About"
+        android:textColor="@android:color/white"
         android:background="@drawable/selector"
-        android:layout_marginLeft="12dp" />
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/ic_menu_about"
+        android:drawablePadding="10dp" />
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package dev.jokr.memestagram.ui.main;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,7 +34,7 @@ import dev.jokr.memestagram.ui.meme.MemeFragment;
 import dev.jokr.memestagram.ui.memes.PagerFragment;
 import dev.jokr.memestagram.ui.messages.ConvosFragment;
 import dev.jokr.memestagram.ui.messages.MessagesFragment;
-import dev.jokr.memestagram.ui.newmeme.PickerActivity;
+import dev.jokr.memestagram.ui.editor.PickerActivity;
 import dev.jokr.memestagram.ui.profile.ProfileFragment;
 import dev.jokr.memestagram.ui.user.UserFragment;
 
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
     @BindView(R.id.content_frame) LinearLayout contentFrame;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.txt_logged_as) TextView txtLoggedAs;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     private int currentFragmentState = 0;
     private Fragment currentFragment;
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         checkUserAuth();
+
+        Typeface tf = Typeface.createFromAsset(this.getAssets(), "Billabong.woff");
+        toolbarTitle.setTypeface(tf);
 
         // initially show memes
         updateFragment(FRAG_MEMES);
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
         currentFragmentState = FRAG_PROFILE;
         currentFragment = new ProfileFragment();
         tempDrawable = null; // remove reference
-        setFragmentWithBackstack(currentFragment);
+        setFragment(currentFragment);
     }
 
     @Override

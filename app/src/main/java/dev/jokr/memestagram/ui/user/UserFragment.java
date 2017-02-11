@@ -66,7 +66,7 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
 
         user = (User) getArguments().getSerializable("user");
         if (user.type == ProjectConst.ANON)
-            txtUsername.setText("[PLEB]" + user.username);
+            txtUsername.setText(user.username);
         else
             txtUsername.setText(user.username);
 

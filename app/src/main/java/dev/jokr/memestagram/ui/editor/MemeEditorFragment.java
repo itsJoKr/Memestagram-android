@@ -1,4 +1,4 @@
-package dev.jokr.memestagram.ui.newmeme;
+package dev.jokr.memestagram.ui.editor;
 
 import android.content.Context;
 import android.graphics.Bitmap;

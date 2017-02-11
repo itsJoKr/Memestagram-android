@@ -28,7 +28,6 @@ android {
 }
 
 
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -50,6 +49,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+    compile 'pub.devrel:easypermissions:0.2.0'
 }
 
 

@@ -5,6 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +18,7 @@ public class User implements Serializable {
     public String key;
     public String username;
     public int type;
+    public HashMap<String, String> likes;
 
     public User() {}
 
