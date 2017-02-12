@@ -56,12 +56,6 @@ public class MemeEditorActivity extends AppCompatActivity implements MemeEditorF
     }
 
     @Override
-    public void onBackPressed() {
-        Intent i = new Intent(this, PickerActivity.class);
-        startActivity(i);
-    }
-
-    @Override
     public void onFinishedEdit(Bitmap bitmap, MemeView.Metadata meta, float scale) {
         if (step == TOP_CAPTION) {
             this.topCaptionMeta = meta;

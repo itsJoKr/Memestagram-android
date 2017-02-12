@@ -82,6 +82,11 @@ public class PublishMemeFragment extends Fragment {
     @OnClick(R.id.btn_publish)
     public void publishMeme() {
         String title = txtMemeTitle.getText().toString();
+        if (title.length() < 5) {
+            Toast.makeText(getContext(), "Please enter at least 6 characters for meme title", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Meme m = new Meme(title);
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             m.user = user;

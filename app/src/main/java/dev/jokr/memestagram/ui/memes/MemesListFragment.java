@@ -37,14 +37,29 @@ import dev.jokr.memestagram.models.Meme;
 
 public class MemesListFragment extends Fragment implements ChildEventListener {
 
+    public static final int DANK = 1;
+    public static final int FRESH = 2;
+    public static final int SUBBED = 3;
+    public static final int RANDOM = 4;
+    private static final String TYPE = "type";
+
     @BindView(R.id.list_memes)
     RecyclerView recyclerView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    private int type;
     private List<Meme> memes;
     private MemesAdapter adapter;
     private List<String> likes;
+
+    public static MemesListFragment newInstance(int listType) {
+        Bundle args = new Bundle();
+        args.putInt(TYPE, listType);
+        MemesListFragment fragment = new MemesListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -58,14 +73,14 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         adapter = new MemesAdapter(getActivity(), sRef);
         recyclerView.setAdapter(adapter);
 
+//        type = getArguments().getInt(TYPE);
+        // TODO: 12.02.17.  Change reference based on type
         DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
 
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             if (user.likes != null) this.likes = new ArrayList<>(user.likes.values());
             memesRef.addChildEventListener(this);
         });
-
-
 
         fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMemeEvent()));
 

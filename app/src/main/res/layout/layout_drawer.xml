@@ -11,14 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:paddingRight="8dp">
 
-        <ImageView
+        <dev.jokr.memestagram.views.AnimatedLogoView
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginLeft="8dp"
-            app:srcCompat="@drawable/ic_logo_memestagram"/>
+            android:id="@+id/animated_logo"
+            android:layout_marginLeft="8dp"/>
+
+        <!--<ImageView-->
+            <!--android:layout_width="?attr/actionBarSize"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--app:srcCompat="@drawable/ic_logo_memestagram"/>-->
 
         <TextView
             android:fontFamily="sans-serif-condensed"
@@ -40,9 +46,7 @@
             android:textSize="18sp"
             android:textColor="@color/darkOne"
             android:layout_marginBottom="2dp"/>
-
     </FrameLayout>
-
 
     <TextView
         android:id="@+id/drawer_item_dank"

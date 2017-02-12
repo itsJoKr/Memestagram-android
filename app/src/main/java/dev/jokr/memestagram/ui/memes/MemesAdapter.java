@@ -81,7 +81,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder> 
         holder.tintLikeImage(meme.liked);
 
         // TODO: temp load local images
-        holder.imgMeme.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.temp_philosoraptor));
+//        holder.imgMeme.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.temp_philosoraptor));
 //        loadImage(meme.$key, holder.imgMeme);
     }
 

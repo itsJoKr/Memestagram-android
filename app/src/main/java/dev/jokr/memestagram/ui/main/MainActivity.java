@@ -29,6 +29,7 @@ import dev.jokr.memestagram.events.ShowProfileEvent;
 import dev.jokr.memestagram.events.ShowUserEvent;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
+import dev.jokr.memestagram.misc.LogoAnimatorDrawerListener;
 import dev.jokr.memestagram.ui.login.LoginActivity;
 import dev.jokr.memestagram.ui.meme.MemeFragment;
 import dev.jokr.memestagram.ui.memes.PagerFragment;
@@ -37,6 +38,7 @@ import dev.jokr.memestagram.ui.messages.MessagesFragment;
 import dev.jokr.memestagram.ui.editor.PickerActivity;
 import dev.jokr.memestagram.ui.profile.ProfileFragment;
 import dev.jokr.memestagram.ui.user.UserFragment;
+import dev.jokr.memestagram.views.AnimatedLogoView;
 
 public class MainActivity extends AppCompatActivity implements FragmentCreatedListener {
 
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
     @BindView(R.id.txt_logged_as) TextView txtLoggedAs;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.animated_logo)
+    AnimatedLogoView animatedLogoView;
 
     private int currentFragmentState = 0;
     private Fragment currentFragment;
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
 
         Typeface tf = Typeface.createFromAsset(this.getAssets(), "Billabong.woff");
         toolbarTitle.setTypeface(tf);
+
+        drawer.addDrawerListener(new LogoAnimatorDrawerListener(animatedLogoView));
 
         // initially show memes
         updateFragment(FRAG_MEMES);
