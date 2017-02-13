@@ -3,8 +3,6 @@ package dev.jokr.memestagram.ui.memes;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,14 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -35,15 +27,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.events.ShowMemeEvent;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Meme;
-import dev.jokr.memestagram.util.ChildAddListenerImpl;
-import dev.jokr.memestagram.util.PlebUsernameTag;
-import dev.jokr.memestagram.util.ValueListenerImpl;
+import dev.jokr.memestagram.firebase.ValueListenerImpl;
 
 /**
  * Created by jokr on 27.12.16..
@@ -98,6 +87,10 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder> 
     public void addMeme(Meme meme) {
         if (memes == null)
             memes = new ArrayList<>();
+
+        for (int i=0; i<memes.size(); i++) {
+            if (memes.get(i).$key.equals(meme.$key)) return;
+        }
 
         memes.add(meme);
         notifyItemInserted(memes.size() - 1);

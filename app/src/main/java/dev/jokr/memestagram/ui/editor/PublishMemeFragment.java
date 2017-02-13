@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.firebase.SingleValueListener;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Meme;
@@ -87,25 +88,28 @@ public class PublishMemeFragment extends Fragment {
             return;
         }
 
+        DatabaseReference miscRef = FirebaseDatabase.getInstance().getReference("misc/count");
+        SingleValueListener.make(miscRef, snap -> {
+           long count = (long) snap.getValue();
 
+            Meme m = new Meme(title);
+            LoggedUserManager.getInstance().getLoggedUser(user -> {
+                m.user = user;
+                String key = memesRef.push().getKey();
 
-        Meme m = new Meme(title);
-        LoggedUserManager.getInstance().getLoggedUser(user -> {
-            m.user = user;
-            String key = memesRef.push().getKey();
+                Map<String, Object> update = new HashMap<>();
+                update.put("/memes/" + key, m.toMap());
+                update.put("/misc/count", count+1);
+                update.put("/memekeys/" + key, key);
 
-            Map<String, Object> update = new HashMap<>();
-            update.put("/memes/" + key, m.toMap());
-//            update.put("/misc/count", )
-
-            FirebaseDatabase.getInstance().getReference()
-                .updateChildren(update, (databaseError, databaseReference) -> {
-                    if (databaseError != null) {
-                        Log.e("USER", "Publish meme: " + databaseError.getMessage());
-                    }
+                FirebaseDatabase.getInstance().getReference()
+                        .updateChildren(update, (databaseError, databaseReference) -> {
+                            if (databaseError != null) {
+                                Log.e("USER", "Publish meme: " + databaseError.getMessage());
+                            }
+                        });
+                buildImageAndUpload(key);
             });
-
-            buildImageAndUpload(key);
         });
     }
 

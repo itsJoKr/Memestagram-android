@@ -1,4 +1,4 @@
-package dev.jokr.memestagram.util;
+package dev.jokr.memestagram.firebase;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
