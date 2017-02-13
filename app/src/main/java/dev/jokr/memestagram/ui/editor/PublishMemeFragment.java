@@ -87,17 +87,22 @@ public class PublishMemeFragment extends Fragment {
             return;
         }
 
+
+
         Meme m = new Meme(title);
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             m.user = user;
-
             String key = memesRef.push().getKey();
+
             Map<String, Object> update = new HashMap<>();
-            update.put("/" + key, m.toMap());
-            memesRef.updateChildren(update, (databaseError, databaseReference) -> {
-                if (databaseError != null) {
-                    Log.e("USER", "Publish meme: " + databaseError.getMessage());
-                }
+            update.put("/memes/" + key, m.toMap());
+//            update.put("/misc/count", )
+
+            FirebaseDatabase.getInstance().getReference()
+                .updateChildren(update, (databaseError, databaseReference) -> {
+                    if (databaseError != null) {
+                        Log.e("USER", "Publish meme: " + databaseError.getMessage());
+                    }
             });
 
             buildImageAndUpload(key);

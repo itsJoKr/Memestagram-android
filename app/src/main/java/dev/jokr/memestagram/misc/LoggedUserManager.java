@@ -53,6 +53,13 @@ public class LoggedUserManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User value = dataSnapshot.getValue(User.class);
+
+                if (value == null) {
+                    // This somehow gets called from LoginActivity
+                    // User is not logged in
+                    return;
+                }
+
                 value.$key = LoggedUserManager.this.$key;
                 LoggedUserManager.this.u = value;
                 l.loggedUserInfo(LoggedUserManager.this.u);

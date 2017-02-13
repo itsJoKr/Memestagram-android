@@ -1,5 +1,6 @@
 package dev.jokr.memestagram.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,9 +22,11 @@ import com.google.firebase.storage.StorageReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Meme;
+import dev.jokr.memestagram.ui.login.LoginActivity;
 import dev.jokr.memestagram.ui.memes.MemesAdapter;
 
 /**
@@ -37,6 +41,7 @@ public class ProfileFragment extends Fragment implements ChildEventListener {
     TextView txtUsername;
     @BindView(R.id.list_memes)
     RecyclerView memes;
+
     private Query hisMemes;
 
     @Nullable
@@ -67,6 +72,13 @@ public class ProfileFragment extends Fragment implements ChildEventListener {
     public void onDestroy() {
         super.onDestroy();
         hisMemes.removeEventListener(this);
+    }
+
+    @OnClick(R.id.btn_logout)
+    public void logout() {
+//        FirebaseAuth.getInstance().signOut();
+//        Intent i = new Intent(getContext(), LoginActivity.class);
+//        getContext().startActivity(i);
     }
 
     @Override

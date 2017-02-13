@@ -19,7 +19,11 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new MemesListFragment();
+        if (position == 0) return MemesListFragment.newInstance(MemesListFragment.DANK);
+        if (position == 1) return MemesListFragment.newInstance(MemesListFragment.FRESH);
+        if (position == 2) return MemesListFragment.newInstance(MemesListFragment.SUBBED);
+        if (position == 3) return MemesListFragment.newInstance(MemesListFragment.RANDOM);
+        else throw new IllegalArgumentException("Invalid position for fragment " + position);
     }
 
     @Override

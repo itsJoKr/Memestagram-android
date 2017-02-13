@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -68,23 +69,38 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         ButterKnife.bind(this, v);
 
         memes = new ArrayList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setStackFromEnd(true);
+        llm.setReverseLayout(true);
+        recyclerView.setLayoutManager(llm);
         StorageReference sRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://memestagram-1767b.appspot.com/memes");
         adapter = new MemesAdapter(getActivity(), sRef);
         recyclerView.setAdapter(adapter);
 
-//        type = getArguments().getInt(TYPE);
+        type = getArguments().getInt(TYPE);
         // TODO: 12.02.17.  Change reference based on type
-        DatabaseReference memesRef = FirebaseDatabase.getInstance().getReference("memes");
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        Query query = getQueryForType(db, type);
+
 
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             if (user.likes != null) this.likes = new ArrayList<>(user.likes.values());
-            memesRef.addChildEventListener(this);
+            int a = 1;
+//            query.addChildEventListener(this);
         });
 
         fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMemeEvent()));
 
         return v;
+    }
+
+    private static Query getQueryForType(FirebaseDatabase db, int type) {
+        if (type == DANK)
+            return db.getReference("memes").orderByChild("likes");
+        else if (type == FRESH)
+            return db.getReference("memes").orderByChild("timestamp");
+        else
+            return db.getReference("memes");
     }
 
     private boolean isElementOf(String el, List<String> list) {
