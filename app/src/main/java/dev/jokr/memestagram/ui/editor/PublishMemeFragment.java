@@ -81,13 +81,14 @@ public class PublishMemeFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_publish)
-    public void publishMeme() {
+    public void publishMeme(View v) {
         String title = txtMemeTitle.getText().toString();
         if (title.length() < 5) {
             Toast.makeText(getContext(), "Please enter at least 6 characters for meme title", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        ((Button)v).setEnabled(false);
         DatabaseReference miscRef = FirebaseDatabase.getInstance().getReference("misc/count");
         SingleValueListener.make(miscRef, snap -> {
            long count = (long) snap.getValue();

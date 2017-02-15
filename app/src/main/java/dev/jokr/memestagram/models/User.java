@@ -19,6 +19,7 @@ public class User implements Serializable {
     public String username;
     public int type;
     public HashMap<String, String> likes;
+    public HashMap<String, String> followed;
 
     public User() {}
 

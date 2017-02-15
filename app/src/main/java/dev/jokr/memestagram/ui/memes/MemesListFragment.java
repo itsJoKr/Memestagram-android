@@ -56,6 +56,7 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
     private int type;
     private MemesAdapter adapter;
     private List<String> likes;
+    private Query query;
 
     public static MemesListFragment newInstance(int listType) {
         Bundle args = new Bundle();
@@ -80,20 +81,19 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         recyclerView.setAdapter(adapter);
 
         type = getArguments().getInt(TYPE);
-        // TODO: 12.02.17.  Change reference based on type
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-//        Query query = getQueryForType(db, type);
 
 
         LoggedUserManager.getInstance().getLoggedUser(user -> {
             if (user.likes != null) this.likes = new ArrayList<>(user.likes.values());
 
-            if (type == DANK || type == FRESH)
-                getQueryForType(db, type).addChildEventListener(this);
-            else if (type == RANDOM)
+            if (type == DANK || type == FRESH) {
+                query = getQueryForType(db, type);
+                query.addChildEventListener(this);
+            } else if (type == RANDOM)
                 getRandomMemes(db);
             else if (type == SUBBED)
-                ;// TODO: 13.02.17. implement subscribe system
+                getSubbedMemes(db);
         });
 
         fab.setOnClickListener(view -> EventBus.getDefault().post(new ShowCreateNewMemeEvent()));
@@ -110,41 +110,30 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
             return db.getReference("memes");
     }
 
-    private void getRandomMemes(FirebaseDatabase db) {
-        Random rand = new Random();
+    private void getSubbedMemes(FirebaseDatabase db) {
+        LoggedUserManager.getInstance().getLoggedUser(user -> {
+            List<String> memeKeys = new ArrayList<>(user.followed.keySet());
+            for (int i=0; i<memeKeys.size(); i++) {
+                query = db.getReference("memes")
+                        .orderByChild("user/key")
+                        .equalTo(memeKeys.get(i));
 
+                query.addChildEventListener(this);
+            }
+        });
+    }
+
+    private void getRandomMemes(FirebaseDatabase db) {
         SingleValueListener.make(db.getReference("misc/count"), countSnap -> {
             long count = (long) countSnap.getValue();
 
             int[] randArray = new int[8];
-            Arrays.fill(randArray, -1);
+            fillWithRandoms(randArray, (int) count);
 
-            for (int i=0; i<randArray.length; i++) {
-                boolean notUnique = false;
-                do {
-                    int randNum = rand.nextInt((int) count);
-                    notUnique = false;
-
-                    for (int j=0; j<randArray.length; j++){
-                        if (randArray[j] == randNum){
-                            notUnique = true;
-                        }
-                    }
-
-                    if (!notUnique) randArray[i] = randNum;
-                } while (notUnique);
-            }
-
-            for (int i=0; i<randArray.length; i++) {
-//                int randNum = rand.nextInt((int) count);
-//                db.getReference("memes")
-//                        .startAt(randNum)
-//                        .limitToFirst(1)
-//                        .addChildEventListener(MemesListFragment.this);
-
+            for (int i = 0; i < randArray.length; i++) {
                 int finalI = i;
                 SingleValueListener.make(db.getReference("memekeys"), snap -> {
-                    List<String> memesKeys = new ArrayList<String>(((HashMap)snap.getValue()).keySet());
+                    List<String> memesKeys = new ArrayList<String>(((HashMap) snap.getValue()).keySet());
                     String key = memesKeys.get(randArray[finalI]);
                     SingleValueListener.make(db.getReference("memes/" + key), memeSnap -> {
                         Meme meme = memeSnap.getValue(Meme.class);
@@ -158,14 +147,42 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         });
     }
 
-    private boolean isElementOf(String el, List<String> list) {
-        if (list==null) return false;
+    private static void fillWithRandoms(int[] randArray, int maxVal) {
+        Random rand = new Random();
+        Arrays.fill(randArray, -1);
 
-        for (int i=0; i<list.size(); i++) {
+        for (int i = 0; i < randArray.length; i++) {
+            boolean notUnique;
+            do {
+                int randNum = rand.nextInt((int) maxVal);
+                notUnique = false;
+
+                for (int j = 0; j < randArray.length; j++) {
+                    if (randArray[j] == randNum) {
+                        notUnique = true;
+                    }
+                }
+
+                if (!notUnique) randArray[i] = randNum;
+            } while (notUnique);
+        }
+    }
+
+    private boolean isElementOf(String el, List<String> list) {
+        if (list == null) return false;
+
+        for (int i = 0; i < list.size(); i++) {
             if (el.equals(list.get(i)))
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (query != null)
+            query.removeEventListener(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package dev.jokr.memestagram.ui.user;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -50,7 +51,7 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
     @BindView(R.id.list_memes)
     RecyclerView memes;
     @BindView(R.id.btn_follow)
-    ImageButton btnFollow;
+    ImageView btnFollow;
 
     private MemesAdapter adapter;
     private User user;
@@ -86,6 +87,7 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
                 .equalTo(user.getKey());
 
         hisMemes.addChildEventListener(this);
+        setIsFollowingUser();
         return v;
     }
 
@@ -106,22 +108,22 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
     public void followUser() {
         LoggedUserManager.getInstance().getLoggedUser(u -> {
             DatabaseReference itRef = FirebaseDatabase.getInstance()
-                    .getReference("users/" + u.key + "followed/" + user.key);
+                    .getReference("users/" + u.getKey() + "/followed/" + user.key);
             DatabaseReference followRef = FirebaseDatabase.getInstance()
-                    .getReference("users/" + u.key + "followed");
+                    .getReference("users/" + u.getKey() + "/followed");
 
             SingleValueListener.make(itRef, followingSnap -> {
                 HashMap<String, Object> update = new HashMap<>();
                 if (followingSnap.getValue() == null) {
                     // follow user
                     update.put("/" + user.key, user.key);
-                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.colorAccent),
-                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.darkOne),
+                            PorterDuff.Mode.SRC_ATOP);
                 } else {
                     // unfollow user
                     update.put("/" + user.key, null);
                     btnFollow.setColorFilter(getContext().getResources().getColor(android.R.color.darker_gray),
-                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                            PorterDuff.Mode.SRC_ATOP);
                 }
                 followRef.updateChildren(update);
             });
@@ -130,15 +132,15 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
 
     private void setIsFollowingUser() {
         LoggedUserManager.getInstance().getLoggedUser(u -> {
-            DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                    .getReference("users/followed/" + user.key);
-            SingleValueListener.make(dbRef, followingSnap -> {
+            DatabaseReference itRef = FirebaseDatabase.getInstance()
+                    .getReference("users/" + u.getKey() + "/followed/" + user.key);
+            SingleValueListener.make(itRef, followingSnap -> {
                 if (followingSnap.getValue() == null) {
                     btnFollow.setColorFilter(getContext().getResources().getColor(android.R.color.darker_gray),
-                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                            PorterDuff.Mode.SRC_ATOP);
                 } else {
-                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.colorAccent),
-                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.darkOne),
+                            PorterDuff.Mode.SRC_ATOP);
                 }
             });
         });
