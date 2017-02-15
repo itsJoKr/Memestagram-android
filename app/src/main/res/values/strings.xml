@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Memestagram</string>
+
+    <string name="about">
+        This is Memestagram application. You agreed to accept all our agreements and conditions. We are not responsible for anything, be grateful we\'re giving this shit for free. Your privacy is not very important to us. In fact, we don\'t give a shit about you, just post some memes.
+    </string>
 </resources>

@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +31,10 @@ import dev.jokr.memestagram.events.ShowUserEvent;
 import dev.jokr.memestagram.misc.FragmentCreatedListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.misc.LogoAnimatorDrawerListener;
+import dev.jokr.memestagram.ui.about.AboutFragment;
 import dev.jokr.memestagram.ui.login.LoginActivity;
 import dev.jokr.memestagram.ui.meme.MemeFragment;
+import dev.jokr.memestagram.ui.memes.MemesListFragment;
 import dev.jokr.memestagram.ui.memes.PagerFragment;
 import dev.jokr.memestagram.ui.messages.ConvosFragment;
 import dev.jokr.memestagram.ui.messages.MessagesFragment;
@@ -42,25 +45,26 @@ import dev.jokr.memestagram.views.AnimatedLogoView;
 
 public class MainActivity extends AppCompatActivity implements FragmentCreatedListener {
 
-    private final static int FRAG_MEMES = 1;
-    private final static int FRAG_PROFILE = 2;
-    private final static int FRAG_MESSAGES = 3;
-    private final static int FRAG_SEARCH = 4;
+    private final static int FRAG_PROFILE = 12;
+    private final static int FRAG_MESSAGES = 13;
+    private final static int FRAG_SEARCH = 14;
+    private final static int FRAG_ABOUT = 15;
+    private final static int FRAG_FEEDBACK = 16;
 
-    private final static int FRAG_MEME_DETAIL = 5;
-    private final static int FRAG_MESSAGES_DETAIL = 6;
-    private final static int FRAG_USER_DETAIL = 7;
+    private final static int FRAG_MEME_DETAIL = 20;
+    private final static int FRAG_MESSAGES_DETAIL = 21;
+    private final static int FRAG_USER_DETAIL = 22;
 
     @BindView(R.id.content_frame) LinearLayout contentFrame;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.drawer_item_dank) TextView txtDankLabel;
     @BindView(R.id.txt_logged_as) TextView txtLoggedAs;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.animated_logo)
-    AnimatedLogoView animatedLogoView;
+    @BindView(R.id.toolbar_title) TextView toolbarTitle;
+    @BindView(R.id.animated_logo) AnimatedLogoView animatedLogoView;
 
     private int currentFragmentState = 0;
     private Fragment currentFragment;
+    private TextView currentActiveItemView;
     private FirebaseAuth firebaseAuth;
     private Drawable tempDrawable;
 
@@ -80,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
         drawer.addDrawerListener(new LogoAnimatorDrawerListener(animatedLogoView));
 
         // initially show memes
-        updateFragment(FRAG_MEMES);
+        updateFragment(MemesListFragment.DANK);
+        tintActiveItem(txtDankLabel);
     }
 
     private void checkUserAuth() {
@@ -104,18 +109,42 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
 
     @OnClick(R.id.drawer_item_dank)
     public void openItemDank(View v) {
-        updateFragment(FRAG_MEMES);
+        updateFragment(MemesListFragment.DANK);
+        tintActiveItem(v);
+    }
+    @OnClick(R.id.drawer_item_fresh)
+    public void openItemFresh(View v) {
+        updateFragment(MemesListFragment.FRESH);
+        tintActiveItem(v);
+    }
+    @OnClick(R.id.drawer_item_subbed)
+    public void openItemSubbed(View v) {
+        updateFragment(MemesListFragment.SUBBED);
+        tintActiveItem(v);
+    }
+    @OnClick(R.id.drawer_item_random)
+    public void openItemRandom(View v) {
+        updateFragment(MemesListFragment.RANDOM);
+        tintActiveItem(v);
     }
 
     @OnClick(R.id.drawer_item_profile)
     public void openItemProfile(View v) {
         updateFragment(FRAG_PROFILE);
+        tintActiveItem(v);
     }
-
     @OnClick(R.id.drawer_item_messages)
     public void openItemMessages(View v) {
         updateFragment(FRAG_MESSAGES);
+        tintActiveItem(v);
     }
+
+    @OnClick(R.id.drawer_item_about)
+    public void openItemAbout(View v) {
+        updateFragment(FRAG_ABOUT);
+        tintActiveItem(v);
+    }
+
 
     @Subscribe
     public void onMessageEvent(ShowCreateNewMemeEvent event) {
@@ -168,16 +197,28 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
         tempDrawable = null; // remove reference
         currentFragmentState = frag;
         drawer.closeDrawers();
+
+        if (currentFragmentState == MemesListFragment.DANK ||
+                currentFragmentState == MemesListFragment.FRESH ||
+                currentFragmentState == MemesListFragment.SUBBED ||
+                currentFragmentState == MemesListFragment.RANDOM) {
+            setFragment(PagerFragment.newInstance(frag));
+            return;
+        }
+
+        if (isMemesListFragment(currentFragmentState)) {
+            setFragment(PagerFragment.newInstance(frag));
+        }
+
         switch (currentFragmentState) {
-            case FRAG_MEMES:
-                PagerFragment f = new PagerFragment();
-                setFragment(f);
-                break;
             case FRAG_PROFILE:
                 setFragment(new ProfileFragment());
                 break;
             case FRAG_MESSAGES:
                 setFragment(new ConvosFragment());
+                break;
+            case FRAG_ABOUT:
+                setFragment(new AboutFragment());
                 break;
             default:
                 Log.e("MainAcitvity", "Unknown fragment const: " + currentFragmentState);
@@ -212,11 +253,31 @@ public class MainActivity extends AppCompatActivity implements FragmentCreatedLi
                 .commit();
     }
 
+    private boolean isMemesListFragment(int fragType) {
+        if (fragType == MemesListFragment.DANK ||
+                fragType == MemesListFragment.FRESH ||
+                fragType == MemesListFragment.SUBBED ||
+                fragType == MemesListFragment.RANDOM) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void tintActiveItem(View v) {
+        if (currentActiveItemView != null)
+            currentActiveItemView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+
+        currentActiveItemView = (TextView) v;
+        currentActiveItemView.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+    }
 
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            if (currentFragmentState == FRAG_MESSAGES_DETAIL) {
+            if (currentFragmentState == FRAG_MESSAGES_DETAIL ||
+                    currentFragmentState == FRAG_MESSAGES ||
+                    isMemesListFragment(currentFragmentState)) {
                 int id = getSupportFragmentManager().getBackStackEntryAt(0).getId();
                 getSupportFragmentManager().popBackStack(id, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }

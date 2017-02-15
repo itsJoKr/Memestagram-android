@@ -45,15 +45,30 @@
 
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/btn_convo"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|right"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="2dp"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@drawable/ic_chat_bubble_black_24dp" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center|right">
+                    <ImageButton
+                        android:id="@+id/btn_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="2dp"
+                        android:layout_marginRight="12dp"
+                        android:tint="@android:color/darker_gray"
+                        app:srcCompat="@drawable/ic_star_black_24dp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_convo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="2dp"
+                        android:tint="@android:color/darker_gray"
+                        app:srcCompat="@drawable/ic_chat_bubble_black_24dp" />
+                </LinearLayout>
 
             </FrameLayout>
         </android.support.v7.widget.CardView>

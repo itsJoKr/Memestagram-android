@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import dev.jokr.memestagram.R;
 import dev.jokr.memestagram.events.ShowConversationEvent;
+import dev.jokr.memestagram.firebase.SingleValueListener;
 import dev.jokr.memestagram.misc.LoggedUserManager;
 import dev.jokr.memestagram.models.Conversation;
 import dev.jokr.memestagram.models.Meme;
@@ -47,6 +49,9 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
     TextView txtUsername;
     @BindView(R.id.list_memes)
     RecyclerView memes;
+    @BindView(R.id.btn_follow)
+    ImageButton btnFollow;
+
     private MemesAdapter adapter;
     private User user;
 
@@ -94,6 +99,48 @@ public class UserFragment extends Fragment implements ChildEventListener, ValueE
                     .equalTo(user.getKey());
 
             convoQuery.addListenerForSingleValueEvent(this);
+        });
+    }
+
+    @OnClick(R.id.btn_follow)
+    public void followUser() {
+        LoggedUserManager.getInstance().getLoggedUser(u -> {
+            DatabaseReference itRef = FirebaseDatabase.getInstance()
+                    .getReference("users/" + u.key + "followed/" + user.key);
+            DatabaseReference followRef = FirebaseDatabase.getInstance()
+                    .getReference("users/" + u.key + "followed");
+
+            SingleValueListener.make(itRef, followingSnap -> {
+                HashMap<String, Object> update = new HashMap<>();
+                if (followingSnap.getValue() == null) {
+                    // follow user
+                    update.put("/" + user.key, user.key);
+                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.colorAccent),
+                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                } else {
+                    // unfollow user
+                    update.put("/" + user.key, null);
+                    btnFollow.setColorFilter(getContext().getResources().getColor(android.R.color.darker_gray),
+                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                }
+                followRef.updateChildren(update);
+            });
+        });
+    }
+
+    private void setIsFollowingUser() {
+        LoggedUserManager.getInstance().getLoggedUser(u -> {
+            DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                    .getReference("users/followed/" + user.key);
+            SingleValueListener.make(dbRef, followingSnap -> {
+                if (followingSnap.getValue() == null) {
+                    btnFollow.setColorFilter(getContext().getResources().getColor(android.R.color.darker_gray),
+                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                } else {
+                    btnFollow.setColorFilter(getContext().getResources().getColor(R.color.colorAccent),
+                            android.graphics.PorterDuff.Mode.MULTIPLY);
+                }
+            });
         });
     }
 

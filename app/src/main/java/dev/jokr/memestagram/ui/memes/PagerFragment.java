@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jokr.memestagram.R;
+import dev.jokr.memestagram.ui.main.MainActivity;
 import dev.jokr.memestagram.ui.main.MainFragmentPagerAdapter;
 
 /**
@@ -20,11 +21,20 @@ import dev.jokr.memestagram.ui.main.MainFragmentPagerAdapter;
 
 public class PagerFragment extends Fragment {
 
+    private static final String TYPE = "type";
+
     @BindView(R.id.viewpager_main)
     ViewPager viewPager;
     @BindView(R.id.tab_layout_main)
     TabLayout tabLayout;
 
+    public static PagerFragment newInstance(int type) {
+        Bundle args = new Bundle();
+        args.putInt(TYPE, type);
+        PagerFragment fragment = new PagerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -32,8 +42,12 @@ public class PagerFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_pager, container, false);
         ButterKnife.bind(this, v);
 
+        int type = getArguments().getInt(TYPE);
+
         viewPager.setAdapter(new MainFragmentPagerAdapter(getChildFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.setCurrentItem(type - 1); // type num equals page+1
 
         return v;
     }

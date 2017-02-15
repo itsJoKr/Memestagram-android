@@ -20,12 +20,6 @@
             android:id="@+id/animated_logo"
             android:layout_marginLeft="8dp"/>
 
-        <!--<ImageView-->
-            <!--android:layout_width="?attr/actionBarSize"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--app:srcCompat="@drawable/ic_logo_memestagram"/>-->
-
         <TextView
             android:fontFamily="sans-serif-condensed"
             android:layout_width="wrap_content"
@@ -63,6 +57,7 @@
 
     <TextView
         style="@style/drawer_text"
+        android:id="@+id/drawer_item_fresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -76,6 +71,7 @@
 
     <TextView
         style="@style/drawer_text"
+        android:id="@+id/drawer_item_subbed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -89,6 +85,7 @@
 
     <TextView
         style="@style/drawer_text"
+        android:id="@+id/drawer_item_random"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -169,6 +166,7 @@
 
     <TextView
         style="@style/drawer_text"
+        android:id="@+id/drawer_item_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
