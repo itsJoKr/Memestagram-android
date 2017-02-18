@@ -71,7 +71,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeHolder> 
 
         // TODO: temp load local images
 //        holder.imgMeme.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.temp_philosoraptor));
-//        loadImage(meme.$key, holder.imgMeme);
+        loadImage(meme.$key, holder.imgMeme);
     }
 
     @Override

@@ -22,6 +22,13 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colorAccent">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_hamburger"
+                        app:srcCompat="@drawable/ic_menu_black_24dp"
+                        android:layout_gravity="left|center"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

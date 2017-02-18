@@ -50,7 +50,7 @@ public class TemplatePickFragment extends Fragment implements TemplatesAdapter.O
         l.add(new Pair<String, Integer>("Confession Bear", R.drawable.temp_confession_bear));
         l.add(new Pair<String, Integer>("Doge", R.drawable.temp_doge));
         l.add(new Pair<String, Integer>("First World Problems", R.drawable.temp_fwp));
-        l.add(new Pair<String, Integer>("Leonardo DiCaprio Cheers", R.drawable.temp_leo_cheers));
+        l.add(new Pair<String, Integer>("Roll safe", R.drawable.temp_roll_safe));
         l.add(new Pair<String, Integer>("What if i told your", R.drawable.temp_matrix));
         l.add(new Pair<String, Integer>("The most interesting man in the world", R.drawable.temp_most_interesting_man_in_the_world));
         l.add(new Pair<String, Integer>("But that's none of my business", R.drawable.temp_none_ofmy_business));
@@ -58,8 +58,12 @@ public class TemplatePickFragment extends Fragment implements TemplatesAdapter.O
         l.add(new Pair<String, Integer>("Philosoraptor", R.drawable.temp_philosoraptor));
         l.add(new Pair<String, Integer>("Captain Picard palmface", R.drawable.temp_picard));
         l.add(new Pair<String, Integer>("Success Kid", R.drawable.temp_success_kid));
+        l.add(new Pair<String, Integer>("You shall not pass", R.drawable.you_shall_not_pass));
+        l.add(new Pair<String, Integer>("Leonardo DiCaprio Cheers", R.drawable.temp_leo_cheers));
         l.add(new Pair<String, Integer>("That woud be great", R.drawable.temp_that_would_be_great));
         l.add(new Pair<String, Integer>("X Everywhere", R.drawable.temp_xeverywhere));
+        l.add(new Pair<String, Integer>("Bad luck Brian", R.drawable.temp_bad_luck_brian));
+        l.add(new Pair<String, Integer>("Futurama Fry", R.drawable.temp_futurama_fry));
         l.add(new Pair<String, Integer>("Y U NO", R.drawable.temp_yu_no));
         return l;
     }

@@ -112,6 +112,8 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
 
     private void getSubbedMemes(FirebaseDatabase db) {
         LoggedUserManager.getInstance().getLoggedUser(user -> {
+            if (user.followed == null) return;
+
             List<String> memeKeys = new ArrayList<>(user.followed.keySet());
             for (int i=0; i<memeKeys.size(); i++) {
                 query = db.getReference("memes")
@@ -127,7 +129,9 @@ public class MemesListFragment extends Fragment implements ChildEventListener {
         SingleValueListener.make(db.getReference("misc/count"), countSnap -> {
             long count = (long) countSnap.getValue();
 
-            int[] randArray = new int[8];
+
+            int numberOfMemes = count > 10 ? 10 : (int) (count - 2);
+            int[] randArray = new int[numberOfMemes];
             fillWithRandoms(randArray, (int) count);
 
             for (int i = 0; i < randArray.length; i++) {

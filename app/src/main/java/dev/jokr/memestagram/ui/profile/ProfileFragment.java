@@ -76,9 +76,13 @@ public class ProfileFragment extends Fragment implements ChildEventListener {
 
     @OnClick(R.id.btn_logout)
     public void logout() {
-//        FirebaseAuth.getInstance().signOut();
-//        Intent i = new Intent(getContext(), LoginActivity.class);
-//        getContext().startActivity(i);
+        LogoutDialogFragment dialog = new LogoutDialogFragment();
+        dialog.setListener(() -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent i = new Intent(getContext(), LoginActivity.class);
+            getContext().startActivity(i);
+        });
+        dialog.show(getFragmentManager(), "logout_dialog");
     }
 
     @Override
